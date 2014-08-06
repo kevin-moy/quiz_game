@@ -10,29 +10,50 @@
 
 @interface QuizViewController ()
 
+@property (nonatomic, weak) IBOutlet UILabel *questionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *answerLabel;
+
+@property (nonatomic) int currentQuestionIndex;
+
+@property (nonatomic, copy) NSArray *questions;
+@property (nonatomic, copy) NSArray *answers;
+
 @end
 
 @implementation QuizViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
-        // Custom initialization
+        self.questions = @[@"From what is congac made?",
+                           @"What is 7+7?",
+                           @"What is the capitial of Vermont?" ];
+        self.answers = @[@"Grapes",
+                         @"14",
+                         @"Montpelier"];
     }
     return self;
 }
-
-- (void)viewDidLoad
+- (IBAction)showQuestion:(id)sender
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.currentQuestionIndex++;
+    
+    if (self.currentQuestionIndex == [self.questions count]) {
+        
+        self.currentQuestionIndex = 0;
+    }
+    NSString *question = self.questions[self.currentQuestionIndex];
+    
+    self.questionLabel.text = question;
+    self.answerLabel.text = @"???";
 }
-
-- (void)didReceiveMemoryWarning
+- (IBAction)showAnswer:(id)sender
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
+    NSString *answer = self.answers[self.currentQuestionIndex];
+    
+    self.answerLabel.text = answer;
+} 
 @end
